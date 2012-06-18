@@ -210,15 +210,15 @@ set completeopt+=longest
 set mps-=[:]
 
 " Автозавершение слов по tab
-"function InsertTabWrapper()
-     "let col = col('.') - 1
-     "if !col || getline('.')[col - 1] !~ '\k'
-         "return "\<tab>"
-     "else
-         "return "\<c-n>"
-     "endif
-"endfunction
-"imap <tab> <c-r>=InsertTabWrapper()<cr>
+function InsertTabWrapper()
+     let col = col('.') - 1
+     if !col || getline('.')[col - 1] !~ '\k'
+         return "\<tab>"
+     else
+         return "\<c-n>"
+     endif
+endfunction
+imap <tab> <c-r>=InsertTabWrapper()<cr>
 
 imap <c-space> <C-R>=RopeCodeAssistInsertMode()<CR>
 imap <Nul> <C-R>=RopeCodeAssistInsertMode()<CR>
