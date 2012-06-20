@@ -343,16 +343,16 @@ set sidescroll=7
 set sidescrolloff=10        " 10 символов минимум под курсором при скролле
 "
 " Ускоренное передвижение по тексту
-nmap <C-H> 7h
-nmap <C-J> 7j
-nmap <C-K> 7k
-nmap <C-L> 7l
+nmap <S-h> 7h
+nmap <S-j> 7j
+nmap <S-k> 7k
+nmap <S-l> 7l
 nmap <S-left> 7h
 nmap <S-down> 7j
 nmap <S-up> 7k
 nmap <S-right> 7l
 
-" PDB abbrev
+" Abbrevs
 iab pdb! import ipdb; ipdb.set_trace()
 iab utf! # -*- coding: utf-8 -*-
 
