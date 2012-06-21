@@ -392,3 +392,4 @@ function! SetUsLayout()
 endfunction
 
 autocmd InsertLeave * call SetUsLayout()
+

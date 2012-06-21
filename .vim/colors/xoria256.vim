@@ -141,3 +141,18 @@ hi NERDTreeExecFile ctermfg=225 guifg=#ffdfff cterm=none gui=none
 " sign define both        linehl=currentLine text=>>
 " sign define empty       linehl=empty
 
+function! InsertStatuslineColor(mode)
+  if a:mode == 'i'
+    hi StatusLine   ctermfg=15  guifg=#ffffff ctermbg=239 guibg=DarkCyan cterm=bold gui=none
+  elseif a:mode == 'r'
+    hi StatusLine   ctermfg=15  guifg=#000000 ctermbg=239 guibg=Cyan cterm=bold gui=none
+  else
+    hi StatusLine   ctermfg=15  guifg=#ffffff ctermbg=239 guibg=DarkRed cterm=bold gui=none
+  endif
+endfunction
+
+au InsertEnter * call InsertStatuslineColor(v:insertmode)
+au InsertLeave * hi StatusLine   ctermfg=15  guifg=#ffffff ctermbg=239 guibg=#4e4e4e cterm=bold gui=none
+
+" default the statusline to green when entering Vim
+hi StatusLine   ctermfg=15  guifg=#ffffff ctermbg=239 guibg=#4e4e4e cterm=bold gui=none
