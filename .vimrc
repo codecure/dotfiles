@@ -393,3 +393,13 @@ endfunction
 
 autocmd InsertLeave * call SetUsLayout()
 
+" Show/hide tab-eof-etc chars
+function! ToggleListChars()
+    if &list
+        set nolist
+    else
+        set list
+    endif
+endfunction
+
+map <leader>t :call ToggleListChars()<cr>
