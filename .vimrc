@@ -94,7 +94,7 @@ set tabstop=4
 set smarttab
 
 " Формат строки состояния
-set statusline=[%n]\ %<%.99f\ %h%w%m%r%y\ %{exists('*CapsLockStatusline')?CapsLockStatusline():''}\ %{&encoding}\ %=%-16(\ %l,%c-%v\ %)%P
+set statusline=[%n]\ %<%.99f\ %h%w%m%r%y\ %{exists('*CapsLockStatusline')?CapsLockStatusline():''}\ %{&encoding}\ %=%-32{fugitive#head()}\ %=%-12(\ %l,%c-%v\ %)%P
 set laststatus=2
 
 " Включаем умные отступы ( например, автоотступ после {)
