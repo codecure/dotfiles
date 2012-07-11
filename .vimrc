@@ -403,3 +403,4 @@ function! ToggleListChars()
 endfunction
 
 map <leader>t :call ToggleListChars()<cr>
+map <leader>r :NERDTreeFind<cr>
