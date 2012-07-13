@@ -404,3 +404,6 @@ endfunction
 
 map <leader>t :call ToggleListChars()<cr>
 map <leader>r :NERDTreeFind<cr>
+
+" Не дает символу # уползать в начало строки
+autocmd BufRead *.py inoremap # X<c-h>#
