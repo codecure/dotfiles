@@ -262,8 +262,8 @@ set guifont=Droid\ Sans\ Mono\ 11
 set t_Co=256 " 256 цветов в терминале
 set t_md=
 set background=dark
-"colorscheme desert
-colorscheme xoria256
+colorscheme desert
+"colorscheme xoria256
 
 if has("gui_running")
     " GUI is running or is about to start.
@@ -407,3 +407,14 @@ map <leader>r :NERDTreeFind<cr>
 
 " Не дает символу # уползать в начало строки
 autocmd BufRead *.py inoremap # X<c-h>#
+
+" Join lines
+map <leader>j :join<cr>
+
+" Move lines
+nnoremap <A-j> :m+<CR>
+nnoremap <A-k> :m-2<CR>
+inoremap <A-j> <Esc>:m+<CR>
+inoremap <A-k> <Esc>:m-2<CR>
+vnoremap <A-j> :m'>+<CR>
+vnoremap <A-k> :m-2<CR>
