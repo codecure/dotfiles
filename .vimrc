@@ -262,8 +262,8 @@ set guifont=Droid\ Sans\ Mono\ 11
 set t_Co=256 " 256 цветов в терминале
 set t_md=
 set background=dark
-"colorscheme desert
-colorscheme xoria256
+colorscheme desert256
+"colorscheme xoria256
 
 if has("gui_running")
     " GUI is running or is about to start.
@@ -425,4 +425,3 @@ au InsertEnter * set nocursorline
 map <leader>c :FencView<cr>
 let g:fencview_autodetect = 0
 
-au VimLeave * !reset

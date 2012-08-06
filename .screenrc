@@ -16,7 +16,6 @@ bind I login on
 bind O login off
 bind } history
 caption always "%{= dw}%-w%{=b .B}%n %t%{-}%+w"
-term "screen-256color"
 defnonblock 5
 bind c screen 1
 bind ^c screen 1
@@ -27,3 +26,4 @@ attrcolor b ".I"
 termcapinfo xterm 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm' 
 # Erase background with current bg color.  Not needed if TERM=screen-256color 
 defbce "on" 
+term screen-256color-bce
