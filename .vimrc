@@ -1,4 +1,5 @@
 let $VIMHOME = $HOME."/.vim"
+
 "-------------------------
 " Базовые настройки
 "-------------------------
@@ -252,18 +253,14 @@ set iskeyword=@,48-57,_,192-255
 " Настройки размеров и внешнего вида
 "-----------------------------------
 " Highlight the trailing spaces
-highlight ExtraWhitespace ctermbg=red guibg=red
-au ColorScheme * highlight ExtraWhitespace guibg=red
-au BufEnter * match ExtraWhitespace /\s\+$/
-au InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
-au InsertLeave * match ExtraWhiteSpace /\s\+$/
+set listchars=tab:»·,trail:·
+set list
 
 set guifont=Droid\ Sans\ Mono\ 11
 set t_Co=256 " 256 цветов в терминале
 set t_md=
 set background=dark
-colorscheme desert256
-"colorscheme xoria256
+colorscheme xoria256
 
 if has("gui_running")
     " GUI is running or is about to start.
@@ -315,7 +312,7 @@ nnoremap <m-left> <c-w><
 nnoremap <m-right> <c-w>>
 
 " Подсветка курсора
-set cursorline
+set nocursorline
 "set cursorcolumn
 
 " Функция для правильного закрытия буфера (чтобы не мучить nerdtree)
@@ -419,9 +416,10 @@ inoremap <A-k> <Esc>:m-2<CR>
 vnoremap <A-j> :m'>+<CR>
 vnoremap <A-k> :m-2<CR>
 
-au InsertLeave * set cursorline
-au InsertEnter * set nocursorline
+"au InsertLeave * set cursorline
+"au InsertEnter * set nocursorline
 
 map <leader>c :FencView<cr>
 let g:fencview_autodetect = 0
 
+map <leader>p :set invpaste paste?<cr>
