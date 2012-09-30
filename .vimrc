@@ -10,7 +10,7 @@ set title " Показ названия файла в заголовке окн�
 
 set linebreak " Перенос по словам
 
-set ignorecase " Не учитывать регистра при поиске
+set ignorecase " Не учитывать регистр при поиске
 
 set showmatch " Посвечивать соответствующие скобки
 
@@ -55,7 +55,7 @@ set novisualbell
 set t_vb=
 
 " Поддержка мыши
-set mouse=nv
+set mouse=a
 set mousemodel=popup
 
 " Кодировка текста по умолчанию
@@ -101,12 +101,6 @@ set laststatus=2
 " Включаем умные отступы ( например, автоотступ после {)
 set smartindent
 
-" Fix <Enter> for comment
-set fo+=cr
-
-" Опции сесссий
-set sessionoptions=curdir,buffers,tabpages
-
 " Отключаем folding
 set nofoldenable
 
@@ -135,10 +129,7 @@ imap <S-Insert> <esc>"+gPi
 set nopaste
 
 " Заставляем shift-insert работать как в Xterm
-"map <S-Insert> <MiddleMouse>
-
-" Поиск и замена слова под курсором
-nmap ; :%s/\<<c-r>=expand("<cword>")<cr>\>/
+map <S-Insert> <MiddleMouse>
 
 " Избавляем от хелпа по F1 и заменяем на Esc
 inoremap <F1> <ESC>
@@ -216,7 +207,7 @@ function InsertTabWrapper()
      if !col || getline('.')[col - 1] !~ '\k'
          return "\<tab>"
      else
-         return "\<c-n>"
+         return "\<c-p>"
      endif
 endfunction
 imap <tab> <c-r>=InsertTabWrapper()<cr>
@@ -312,7 +303,7 @@ nnoremap <m-left> <c-w><
 nnoremap <m-right> <c-w>>
 
 " Подсветка курсора
-set nocursorline
+set cursorline
 "set cursorcolumn
 
 " Функция для правильного закрытия буфера (чтобы не мучить nerdtree)
@@ -333,7 +324,7 @@ endfunction
 
 set shiftround              " удалять лишние пробелы при отступе
 set wrap                    " перенос строк
-set clipboard+=unnamed      " включаем X clipboard
+set clipboard^=unnamed      " включаем X clipboard
 set virtualedit=all         " On virtualedit for all mode
 set go+=a                   " выделение в виме копирует в буфер системы
 set sidescroll=7
