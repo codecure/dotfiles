@@ -54,10 +54,6 @@ set scrolloff=7
 set novisualbell
 set t_vb=
 
-" Поддержка мыши
-set mouse=a
-set mousemodel=popup
-
 " Кодировка текста по умолчанию
 set termencoding=utf-8
 set encoding=utf8
@@ -293,14 +289,6 @@ nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
-nnoremap <C-left> <C-w>h
-nnoremap <C-down> <C-w>j
-nnoremap <C-up> <C-w>k
-nnoremap <C-right> <C-w>l
-
-" Размеры окон
-nnoremap <m-left> <c-w><
-nnoremap <m-right> <c-w>>
 
 " Подсветка курсора
 set cursorline
@@ -335,10 +323,6 @@ nmap <S-h> 7h
 nmap <S-j> 7j
 nmap <S-k> 7k
 nmap <S-l> 7l
-nmap <S-left> 7h
-nmap <S-down> 7j
-nmap <S-up> 7k
-nmap <S-right> 7l
 
 " Abbrevs
 iab pdb! import ipdb; ipdb.set_trace()
@@ -355,6 +339,8 @@ map <leader>q :wincmd q<cr>
 let g:tagbar_compact = 1
 let g:tagbar_autoshowtag = 1
 let g:tagbar_autofocus = 1
+let g:tagbar_iconchars = ['+', '-']
+let g:tagbar_width = 25
 
 let no_flake8_maps = 0
 
@@ -399,14 +385,6 @@ autocmd BufRead *.py inoremap # X<c-h>#
 " Join lines
 map <leader>j :join<cr>
 
-" Move lines
-nnoremap <A-j> :m+<CR>
-nnoremap <A-k> :m-2<CR>
-inoremap <A-j> <Esc>:m+<CR>
-inoremap <A-k> <Esc>:m-2<CR>
-vnoremap <A-j> :m'>+<CR>
-vnoremap <A-k> :m-2<CR>
-
 "au InsertLeave * set cursorline
 "au InsertEnter * set nocursorline
 
@@ -414,3 +392,4 @@ map <leader>c :FencView<cr>
 let g:fencview_autodetect = 0
 
 map <leader>p :set invpaste paste?<cr>
+
