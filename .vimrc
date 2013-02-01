@@ -247,7 +247,8 @@ set guifont=Droid\ Sans\ Mono\ 11
 set t_Co=256 " 256 цветов в терминале
 set t_md=
 set background=dark
-colorscheme xoria256
+"colorscheme xoria256
+colorscheme kolor
 
 if has("gui_running")
     " GUI is running or is about to start.
@@ -292,7 +293,6 @@ nnoremap <C-l> <C-w>l
 
 " Подсветка курсора
 set cursorline
-"set cursorcolumn
 
 " Функция для правильного закрытия буфера (чтобы не мучить nerdtree)
 function! Cclose()
@@ -332,7 +332,6 @@ au BufReadPost *.py set keywordprg=pydoc
 
 " Запустить проверку PyFlakes, pep8
 autocmd FileType python map <buffer> <F9> :call Flake8()<CR>
-"autocmd BufWritePost *.py call Flake8()
 
 map <leader>q :wincmd q<cr>
 
@@ -385,11 +384,4 @@ autocmd BufRead *.py inoremap # X<c-h>#
 " Join lines
 map <leader>j :join<cr>
 
-"au InsertLeave * set cursorline
-"au InsertEnter * set nocursorline
-
-map <leader>c :FencView<cr>
-let g:fencview_autodetect = 0
-
 map <leader>p :set invpaste paste?<cr>
-
