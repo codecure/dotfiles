@@ -31,10 +31,6 @@ set showcmd
 " Включаем нумерацию строк
 set nu
 
-" Относительные номера строк от текущей, абсолютные см. в статусной строке
-" (для вима новее 7.3)
-" set relativenumber
-
 " Фолдинг по отсупам
 set foldmethod=indent
 
@@ -91,7 +87,7 @@ set tabstop=4
 set smarttab
 
 " Формат строки состояния
-set statusline=[%n]\ %<%.99f\ %h%w%m%r%y\ %{exists('*CapsLockStatusline')?CapsLockStatusline():''}\ %{&encoding}\ %=%-32{fugitive#head()}\ %=%-12(\ %l,%c-%v\ %)%P
+set statusline=[%n]\ %<%.99f\ %h%w%m%r%y\ %{&encoding}\ %=%-32{fugitive#head()}\ %=%-12(\ %l,%c-%v\ %)%P
 set laststatus=2
 
 " Включаем умные отступы ( например, автоотступ после {)
@@ -111,17 +107,12 @@ set noswapfile
 "-------------------------
 " Горячие клавиши
 "-------------------------
-
-" CTRL-F для omni completion
-imap <C-F> <C-X><C-O>
-
 " C-c and C-v - Copy/Paste в "глобальный клипборд"
 vmap <C-C> "+yi
 imap <C-V> <esc>"+gPi
 vmap <C-Insert> "+yi
 imap <S-Insert> <esc>"+gPi
 
-"set paste
 set nopaste
 
 " Заставляем shift-insert работать как в Xterm
@@ -176,11 +167,15 @@ imap >Ins> <Esc>i
 
 " Меню выбора кодировки текста (koi8-r, cp1251, cp866, utf8)
 set wildmenu
+set wildmode=longest,list,full
+set wildignore+=*.pyc
+
 set wcm=<Tab>
 menu Encoding.koi8-r :e ++enc=koi8-r<CR>
 menu Encoding.windows-1251 :e ++enc=cp1251<CR>
 menu Encoding.cp866 :e ++enc=cp866<CR>
 menu Encoding.utf-8 :e ++enc=utf8 <CR>
+map <leader>e :emenu Encoding.<TAB>
 
 " Слова откуда будем завершать
 set complete=""
@@ -198,15 +193,15 @@ set completeopt+=longest
 set mps-=[:]
 
 " Автозавершение слов по tab
-function InsertTabWrapper()
-     let col = col('.') - 1
-     if !col || getline('.')[col - 1] !~ '\k'
-         return "\<tab>"
-     else
-         return "\<c-p>"
-     endif
-endfunction
-imap <tab> <c-r>=InsertTabWrapper()<cr>
+"function InsertTabWrapper()
+     "let col = col('.') - 1
+     "if !col || getline('.')[col - 1] !~ '\k'
+         "return "\<tab>"
+     "else
+         "return "\<c-p>"
+     "endif
+"endfunction
+"imap <tab> <c-r>=InsertTabWrapper()<cr>
 
 imap <c-space> <C-R>=RopeCodeAssistInsertMode()<CR>
 imap <Nul> <C-R>=RopeCodeAssistInsertMode()<CR>
@@ -247,8 +242,8 @@ set guifont=Droid\ Sans\ Mono\ 11
 set t_Co=256 " 256 цветов в терминале
 set t_md=
 set background=dark
-"colorscheme xoria256
-colorscheme kolor
+colorscheme xoria256
+"colorscheme kolor
 
 if has("gui_running")
     " GUI is running or is about to start.
@@ -354,9 +349,6 @@ map <leader>g :RopeGotoDefinition<cr>
 " Pydoc
 let g:pydoc_open_cmd = 'vsplit'
 
-" Explore
-map <leader>e :Explore<cr>
-
 " Set 'en' layout on leave insert
 function! SetUsLayout()
     if &iminsert != 0
@@ -375,7 +367,7 @@ function! ToggleListChars()
     endif
 endfunction
 
-map <leader>t :call ToggleListChars()<cr>
+map <leader>:c :call ToggleListChars()<cr>
 map <leader>r :NERDTreeFind<cr>
 
 " Не дает символу # уползать в начало строки
@@ -385,3 +377,4 @@ autocmd BufRead *.py inoremap # X<c-h>#
 map <leader>j :join<cr>
 
 map <leader>p :set invpaste paste?<cr>
+
