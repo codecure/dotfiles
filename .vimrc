@@ -1,364 +1,153 @@
-let $VIMHOME = $HOME."/.vim"
+filetype plugin off
+execute pathogen#infect()
 
-"-------------------------
-" Базовые настройки
-"-------------------------
-" Перечитываем файл, если он изменился извне
-set autoread
-
-set title " Показ названия файла в заголовке окна
-
-set linebreak " Перенос по словам
-
-set ignorecase " Не учитывать регистр при поиске
-
-set showmatch " Посвечивать соответствующие скобки
-
-set matchpairs+=<:> " Подсвечивать < и > тоже
-
-" Включаем антиалиасинг для шрифтов
-set antialias
-
-" Включаем несовместимость настроек с Vi (ибо Vi нам и не понадобится).
-set nocompatible
-
-" Показывать положение курсора всё время.
-set ruler
-
-" Показывать незавершённые команды в статусбаре
-set showcmd
-
-" Включаем нумерацию строк
-set nu
-
-" Фолдинг по отсупам
-set foldmethod=indent
-
-" Поиск по набору текста (очень полезная функция)
-set incsearch
-
-" Отключаем подстветку найденных вариантов, и так всё видно.
-set nohlsearch
-
-" Теперь нет необходимости передвигать курсор к краю экрана, чтобы подняться в режиме редактирования
-set scrolljump=7
-
-" Теперь нет необходимости передвигать курсор к краю экрана, чтобы опуститься в режиме редактирования
-set scrolloff=7
-
-" Выключаем надоедливый 'звонок'
-set novisualbell
-set t_vb=
-
-" Кодировка текста по умолчанию
-set termencoding=utf-8
-set encoding=utf8
-
-" Не выгружать буфер, когда переключаемся на другой
-" Это позволяет редактировать несколько файлов в один и тот же момент без необходимости сохранения каждый раз
-" когда переключаешься между ними
-set hidden
-
-" Скрыть панель в gui версии ибо она не нужна
-set guioptions-=T
-
-" Сделать строку команд высотой в одну строку
-set ch=1
-
-" Скрывать указатель мыши, когда печатаем
-set mousehide
-
-" Включить автоотступы
-set autoindent
-
-" Влючить подстветку синтаксиса
+" Default settings
 syntax on
-
-" allow to use backspace instead of "x"
-set backspace=indent,eol,start whichwrap+=<,>,[,]
-
-" Преобразование Таба в пробелы
-set expandtab
-
-" Размер табуляции по умолчанию
-set shiftwidth=4
-set softtabstop=4
-set tabstop=4
-set smarttab
-
-" Формат строки состояния
-set statusline=[%n]\ %<%.99f\ %h%w%m%r%y\ %{&encoding}\ %=%-32{fugitive#head()}\ %=%-12(\ %l,%c-%v\ %)%P
-set laststatus=2
-
-" Включаем умные отступы ( например, автоотступ после {)
-set smartindent
-
-" Отключаем folding
-set nofoldenable
-
-" Показывать режим, в котором находимся
-set showmode
-
-" Не делать никаких бекапов
+filetype plugin indent on
+set hidden
+set autoread
 set nobackup
-set nowritebackup
 set noswapfile
-
-"-------------------------
-" Горячие клавиши
-"-------------------------
-" C-c and C-v - Copy/Paste в "глобальный клипборд"
-vmap <C-C> "+yi
-imap <C-V> <esc>"+gPi
-vmap <C-Insert> "+yi
-imap <S-Insert> <esc>"+gPi
-
-set nopaste
-
-" Заставляем shift-insert работать как в Xterm
-map <S-Insert> <MiddleMouse>
-
-" Избавляем от хелпа по F1 и заменяем на Esc
-inoremap <F1> <ESC>
-nnoremap <F1> <ESC>
-vnoremap <F1> <ESC>
-
-" F2 - Save
-map <F2> :w<cr>
-vmap <F2> <esc>:w<cr>
-imap <F2> <esc>:w<cr>
-
-" F3 - NERDTree
-map <F3> :NERDTreeToggle<cr>
-vmap <F3> <esc>:NERDTreeToggle<cr>
-imap <F3> <esc>:NERDTreeToggle<cr>
-
-" F4 - Tag List
-map <F4> :TagbarToggle<cr>
-vmap <F4> <esc>:TagbarToggle<cr>
-imap <F4> <esc>:TagbarToggle<cr>
-
-" F5 - просмотр списка буферов
-nmap <F5> <Esc>:BufExplorer<cr>
-vmap <F5> <esc>:BufExplorer<cr>
-imap <F5> <esc><esc>:BufExplorer<cr>
-
-" F6 - предыдущий буфер
-map <F6> :bp<cr>
-vmap <F6> <esc>:bp<cr>i
-imap <F6> <esc>:bp<cr>i
-
-" F7 - следующий буфер
-map <F7> :bn<cr>
-vmap <F7> <esc>:bn<cr>i
-imap <F7> <esc>:bn<cr>i
-
-" F8 - удалить буфер
-map <F8> :call Cclose()<cr>
-vmap <F8> <esc>:call Cclose()<cr>i
-imap <F8> <esc>:call Cclose()<cr>i
-
-" < & > - делаем отступы для блоков
-vmap < <gv
-vmap > >gv
-
-" Выключаем ненавистный режим замены
-imap >Ins> <Esc>i
-
-" Меню выбора кодировки текста (koi8-r, cp1251, cp866, utf8)
-set wildmenu
+set number
+set nowrap
 set wildmode=longest,list,full
 set wildignore+=*.pyc
-
-set wcm=<Tab>
-menu Encoding.koi8-r :e ++enc=koi8-r<CR>
-menu Encoding.windows-1251 :e ++enc=cp1251<CR>
-menu Encoding.cp866 :e ++enc=cp866<CR>
-menu Encoding.utf-8 :e ++enc=utf8 <CR>
-map <leader>e :emenu Encoding.<TAB>
-
-" Слова откуда будем завершать
-set complete=""
-" Из текущего буфера
-set complete+=.
-" Из словаря
-set complete+=k
-" Из других открытых буферов
-set complete+=b
-" из тегов
-set complete+=t
-
-set completeopt-=preview
-set completeopt+=longest
-set mps-=[:]
-
-" Автозавершение слов по tab
-"function InsertTabWrapper()
-     "let col = col('.') - 1
-     "if !col || getline('.')[col - 1] !~ '\k'
-         "return "\<tab>"
-     "else
-         "return "\<c-p>"
-     "endif
-"endfunction
-"imap <tab> <c-r>=InsertTabWrapper()<cr>
-
-imap <c-space> <C-R>=RopeCodeAssistInsertMode()<CR>
-imap <Nul> <C-R>=RopeCodeAssistInsertMode()<CR>
-
-" Настройка omnicomletion для Python (а так же для js, html и css)
-autocmd FileType python set omnifunc=pythoncomplete#Complete
-autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
-autocmd FileType css set omnifunc=csscomplete#CompleteCSS
-autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
-autocmd FileType php set omnifunc=phpcomplete#CompletePHP
-
-" В .py файлах включаем умные отступы после ключевых слов
-autocmd BufRead *.py set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
-
-" Включаем filetype плагин.
-filetype plugin on
-
-" Поддержка русского
-set keymap=russian-jcukenwin
-" по умолчанию - латинская раскладка
-set iminsert=0
-" по умолчанию - латинская раскладка при поиске
-set imsearch=0
-" Список кодировок файлов для автоопределения
-set fileencodings=utf-8,cp1251,koi8-r,cp866
-" (чтобы w, b, * понимали русские слова)
-set iskeyword=@,48-57,_,192-255
-
-"-----------------------------------
-" Настройки размеров и внешнего вида
-"-----------------------------------
-" Highlight the trailing spaces
+set wildmenu
+set nocompatible
+set laststatus=2
+set ignorecase
+set wildignorecase
+set incsearch
+set autoindent
 set listchars=tab:»·,trail:·
 set list
+set cursorline
+set shiftround
+set history=1000
+set undolevels=1000
+set novisualbell
 
-set guifont=Droid\ Sans\ Mono\ 11
-set t_Co=256 " 256 цветов в терминале
-set t_md=
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
+set expandtab
+set switchbuf+=usetab,newtab
+set mouse=a
+
+" Look'n'feel
+set t_Co=256
 set background=dark
-colorscheme xoria256
-"colorscheme kolor
+let g:solarized_termcolors=256
+colorscheme solarized
 
-if has("gui_running")
-    " GUI is running or is about to start.
-    winpos 250 100
-    " Maximize gvim window.
-    set lines=40 columns=120
-    " Не показывать скроллы в гуи режиме и показывать иконку
-    set guioptions=i
-    set guioptions+=m
+set guioptions-=r
+set guioptions-=R
+set guioptions-=l
+set guioptions-=L
+set guioptions-=b
+set guioptions-=T
+set guioptions-=m
+set guioptions-=h
+
+set mousehide
+set ch=1
+
+set lines=40
+set columns=120
+
+if has('gui_running')
+  set guifont=Droid\ Sans\ Mono\ 10
 endif
 
-" Python
-let python_highlight_all = 1
+set guiheadroom=0
 
-" BufExplorer
-let g:bufExplorerReverseSort=0
-let g:bufExplorerShowRelativePath=1
-let g:bufExplorerShowUnlisted=0
-let g:bufExplorerSortBy='mru'
+" Shortcuts
+map <leader>q :wincmd q<cr>
+map <leader>j :join<cr>
+map <leader>c :call ToggleListChars()<cr>
+map <leader>p :set invpaste paste?<cr>
 
-" NERD tree
-let NERDTreeIgnore = ['\.pyc$']
-let g:NERDTreeWinSize = 25
-
-" Труъ путь вимера
-"nnoremap <up> <nop>
-"nnoremap <down> <nop>
-"nnoremap <left> <nop>
-"nnoremap <right> <nop>
-"inoremap <up> <nop>
-"inoremap <down> <nop>
-"inoremap <left> <nop>
-"inoremap <right> <nop>
-nnoremap j gj
-nnoremap k gk
-
-" Перемещение по сплитам
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
-" Подсветка курсора
-set cursorline
-
-" Функция для правильного закрытия буфера (чтобы не мучить nerdtree)
-function! Cclose()
-    let todelbufNr = bufnr("%")
-    let newbufNr = bufnr("#")
-    if ((newbufNr != -1) && (newbufNr != todelbufNr) && buflisted(newbufNr))
-        exe "b".newbufNr
-    else
-        bnext
-    endif
-
-    if (bufnr("%") == todelbufNr)
-        new
-    endif
-    exe "bd!".todelbufNr
-endfunction
-
-set shiftround              " удалять лишние пробелы при отступе
-set wrap                    " перенос строк
-set clipboard^=unnamed      " включаем X clipboard
-set virtualedit=all         " On virtualedit for all mode
-set go+=a                   " выделение в виме копирует в буфер системы
-set sidescroll=7
-set sidescrolloff=10        " 10 символов минимум под курсором при скролле
-"
-" Ускоренное передвижение по тексту
 nmap <S-h> 7h
 nmap <S-j> 7j
 nmap <S-k> 7k
 nmap <S-l> 7l
 
+map <F1> :Rgrep -i<cr>
+vmap <F1> <esc>:Rgrep -i<cr>
+imap <F1> <esc>:Rgrep -i<cr>
+
+map <F2> :w<cr>
+vmap <F2> <esc>:w<cr>
+imap <F2> <esc>:w<cr>
+
+map <F3> :NERDTreeToggle<cr>
+vmap <F3> <esc>:NERDTreeToggle<cr>
+imap <F3> <esc>:NERDTreeToggle<cr>
+
+map <F4> :TagbarToggle<cr>
+vmap <F4> <esc>:TagbarToggle<cr>
+imap <F4> <esc>:TagbarToggle<cr>
+
+map <A-1> 1gt
+map <A-2> 2gt
+map <A-3> 3gt
+map <A-4> 4gt
+map <A-5> 5gt
+map <A-6> 6gt
+map <A-7> 7gt
+map <A-8> 8gt
+map <A-9> 9gt
+
+map <C-Right> <ESC>:tabnext<CR>
+map <C-Left> <ESC>:tabprev<CR>
+map <C-t> <ESC>:tabnew<CR>
+
 " Abbrevs
-iab pdb! import ipdb; ipdb.set_trace()
+iab ipdb! import ipdb; ipdb.set_trace()
 iab utf! # -*- coding: utf-8 -*-
 
-au BufReadPost *.py set keywordprg=pydoc
+" Language settings
+set termencoding=utf-8
+set encoding=utf8
+set keymap=russian-jcukenwin
+set iminsert=0
+set imsearch=0
+set fileencodings=utf-8,cp1251,koi8-r,cp866
+set iskeyword=@,48-57,_,192-255
 
-" Запустить проверку PyFlakes, pep8
-autocmd FileType python map <buffer> <F9> :call Flake8()<CR>
+" Autocmds
+autocmd FileType html setlocal shiftwidth=2 tabstop=2 softtabstop=2
+autocmd FileType jinja setlocal shiftwidth=2 tabstop=2 softtabstop=2
+autocmd FileType css setlocal shiftwidth=2 tabstop=2 softtabstop=2
+autocmd FileType less setlocal shiftwidth=2 tabstop=2 softtabstop=2
 
-map <leader>q :wincmd q<cr>
-
-let g:tagbar_compact = 1
-let g:tagbar_autoshowtag = 1
-let g:tagbar_autofocus = 1
-let g:tagbar_iconchars = ['+', '-']
-let g:tagbar_width = 25
-
-let no_flake8_maps = 0
-
-" Rope
-let ropevim_vim_completion = 1
-let ropevim_extended_complete = 1
-let ropevim_guess_project = 0
-
-map <leader>o :RopeOpenProject<cr>
-map <leader>g :RopeGotoDefinition<cr>
-
-" Pydoc
-let g:pydoc_open_cmd = 'vsplit'
-
-" Set 'en' layout on leave insert
-function! SetUsLayout()
-    if &iminsert != 0
-        let &iminsert = 0
-    endif
-endfunction
+autocmd BufRead *.py set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
+autocmd BufRead *.py inoremap # X<c-h>#
 
 autocmd InsertLeave * call SetUsLayout()
 
-" Show/hide tab-eof-etc chars
+autocmd vimenter * if !argc() | NERDTree | endif
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+
+" Remaps
+map <C-V> "+gP
+map <S-Insert> "+gP
+
+vnoremap <C-C> "+y
+vnoremap <C-Insert> "+y
+
+noremap <C-Z> u
+inoremap <C-Z> <C-O>u
+
+noremap <C-Y> <C-R>
+inoremap <C-Y> <C-O><C-R>
+
+" Functions
 function! ToggleListChars()
     if &list
         set nolist
@@ -367,14 +156,27 @@ function! ToggleListChars()
     endif
 endfunction
 
-map <leader>:c :call ToggleListChars()<cr>
-map <leader>r :NERDTreeFind<cr>
+function! SetUsLayout()
+    if &iminsert != 0
+        let &iminsert = 0
+    endif
+endfunction
 
-" Не дает символу # уползать в начало строки
-autocmd BufRead *.py inoremap # X<c-h>#
+" Plugins settings
+let g:tagbar_compact = 1
+let g:tagbar_autoshowtag = 1
+let g:tagbar_autofocus = 1
+let g:tagbar_iconchars = ['+', '-']
+let g:tagbar_width = 25
 
-" Join lines
-map <leader>j :join<cr>
+let python_highlight_all = 1
 
-map <leader>p :set invpaste paste?<cr>
+let NERDTreeIgnore = ['\.pyc$']
+let NERDTreeMinimalUI = 1
+let g:NERDTreeWinSize = 25
+let g:NERDTreeChDirMode=2
 
+let g:jedi#pydoc = ""
+
+let Grep_Skip_Dirs = '.git .hg .idea .vagrant .webassets-cache'
+let Grep_Skip_Files = '*.bak *~ *.pyc'
