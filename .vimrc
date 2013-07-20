@@ -15,6 +15,7 @@ set wildignore+=*.pyc
 set wildmenu
 set nocompatible
 set laststatus=2
+set statusline=%<\ %f\ %m%r%y\ %{&ff}:%{&fenc}%=%-0.(%4l\/%L:%3c\%)\ [%3p%%]
 set ignorecase
 set wildignorecase
 set incsearch
