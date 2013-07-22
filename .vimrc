@@ -128,6 +128,7 @@ autocmd FileType html setlocal shiftwidth=2 tabstop=2 softtabstop=2
 autocmd FileType jinja setlocal shiftwidth=2 tabstop=2 softtabstop=2
 autocmd FileType css setlocal shiftwidth=2 tabstop=2 softtabstop=2
 autocmd FileType less setlocal shiftwidth=2 tabstop=2 softtabstop=2
+autocmd FileType python set completeopt-=preview
 
 autocmd BufRead *.py set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
 autocmd BufRead *.py inoremap # X<c-h>#
@@ -180,7 +181,6 @@ let g:NERDTreeWinSize = 25
 let g:NERDTreeChDirMode=2
 
 let g:jedi#pydoc = ""
-let g:jedi#auto_vim_configuration = 0
 
 let Grep_Skip_Dirs = '.git .hg .idea .vagrant .webassets-cache'
 let Grep_Skip_Files = '*.bak *~ *.pyc'
