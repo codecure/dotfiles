@@ -37,7 +37,7 @@ set mouse=a
 
 " Look'n'feel
 set t_Co=256
-set background=dark
+set background=light
 let g:solarized_termcolors=256
 colorscheme solarized
 
@@ -61,6 +61,8 @@ if has('gui_running')
 endif
 
 set guiheadroom=0
+
+set completeopt=menuone,longest
 
 " Shortcuts
 map <leader>q :wincmd q<cr>
@@ -178,6 +180,7 @@ let g:NERDTreeWinSize = 25
 let g:NERDTreeChDirMode=2
 
 let g:jedi#pydoc = ""
+let g:jedi#auto_vim_configuration = 0
 
 let Grep_Skip_Dirs = '.git .hg .idea .vagrant .webassets-cache'
 let Grep_Skip_Files = '*.bak *~ *.pyc'
