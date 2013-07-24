@@ -22,7 +22,7 @@ set incsearch
 set autoindent
 set listchars=tab:»·,trail:·
 set list
-set cursorline
+set nocursorline
 set shiftround
 set history=1000
 set undolevels=1000
@@ -37,9 +37,8 @@ set mouse=a
 
 " Look'n'feel
 set t_Co=256
-set background=light
-let g:solarized_termcolors=256
-colorscheme solarized
+set background=dark
+colorscheme desert
 
 set guioptions-=r
 set guioptions-=R
@@ -61,8 +60,6 @@ if has('gui_running')
 endif
 
 set guiheadroom=0
-
-set completeopt=menuone,longest
 
 " Shortcuts
 map <leader>q :wincmd q<cr>
@@ -184,3 +181,12 @@ let g:jedi#pydoc = ""
 
 let Grep_Skip_Dirs = '.git .hg .idea .vagrant .webassets-cache'
 let Grep_Skip_Files = '*.bak *~ *.pyc'
+
+let g:SuperTabDefaultCompletionType = "context"
+let g:SuperTabContextDefaultCompletionType = "<c-n>"
+let g:SuperTabCompletionContexts = ['s:ContextText', 's:ContextDiscover']
+let g:SuperTabContextTextOmniPrecedence = ['&omnifunc', '&completefunc']
+let g:SuperTabContextDiscoverDiscovery = ["&completefunc:<c-x><c-u>", "&omnifunc:<c-x><c-o>"]
+
+" Syntax highlight settings
+highlight link htmlLink text
