@@ -1,5 +1,21 @@
-filetype plugin off
-execute pathogen#infect()
+set nocompatible
+filetype off
+
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+Plugin 'gmarik/Vundle.vim'
+Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'majutsushi/tagbar'
+Plugin 'ervandew/supertab'
+Plugin 'davidhalter/jedi-vim'
+Plugin 'jmcantrell/vim-virtualenv'
+Plugin 'yegappan/grep'
+Plugin 'kien/ctrlp.vim'
+
+call vundle#end()
+filetype plugin indent on
 
 " Default settings
 syntax on
@@ -26,7 +42,7 @@ set nocursorline
 set shiftround
 set history=1000
 set undolevels=1000
-set novisualbell
+set visualbell t_vb=
 
 set tabstop=4
 set shiftwidth=4
@@ -40,37 +56,16 @@ set t_Co=256
 set background=dark
 colorscheme desert
 
-set guioptions-=r
-set guioptions-=R
-set guioptions-=l
-set guioptions-=L
-set guioptions-=b
-set guioptions-=T
-set guioptions-=m
-set guioptions-=h
-
-set mousehide
 set ch=1
 
 set lines=40
 set columns=120
-
-if has('gui_running')
-  set guifont=Droid\ Sans\ Mono\ 10
-endif
-
-set guiheadroom=0
 
 " Shortcuts
 map <leader>q :wincmd q<cr>
 map <leader>j :join<cr>
 map <leader>c :call ToggleListChars()<cr>
 map <leader>p :set invpaste paste?<cr>
-
-nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
 
 nmap <S-h> 7h
 nmap <S-j> 7j
@@ -93,23 +88,9 @@ map <F4> :TagbarToggle<cr>
 vmap <F4> <esc>:TagbarToggle<cr>
 imap <F4> <esc>:TagbarToggle<cr>
 
-map <A-1> 1gt
-map <A-2> 2gt
-map <A-3> 3gt
-map <A-4> 4gt
-map <A-5> 5gt
-map <A-6> 6gt
-map <A-7> 7gt
-map <A-8> 8gt
-map <A-9> 9gt
-
-map <C-Right> <ESC>:tabnext<CR>
-map <C-Left> <ESC>:tabprev<CR>
-map <C-t> <ESC>:tabnew<CR>
-
 " Abbrevs
 iab ipdb! import ipdb; ipdb.set_trace()
-iab utf! # -*- coding: utf-8 -*-
+iab utf! # coding: utf-8
 
 " Language settings
 set termencoding=utf-8
@@ -136,17 +117,6 @@ autocmd vimenter * if !argc() | NERDTree | endif
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
 " Remaps
-map <C-V> "+gP
-map <S-Insert> "+gP
-
-vnoremap <C-C> "+y
-vnoremap <C-Insert> "+y
-
-noremap <C-Z> u
-inoremap <C-Z> <C-O>u
-
-noremap <C-Y> <C-R>
-inoremap <C-Y> <C-O><C-R>
 
 " Functions
 function! ToggleListChars()
@@ -177,17 +147,13 @@ let NERDTreeMinimalUI = 1
 let g:NERDTreeWinSize = 25
 let g:NERDTreeChDirMode=2
 
-let g:jedi#pydoc = ""
+let g:jedi#documentation_command = ""
 
 let Grep_Skip_Dirs = '.git .hg .idea .vagrant .webassets-cache'
 let Grep_Skip_Files = '*.bak *~ *.pyc'
 
 let g:SuperTabDefaultCompletionType = "context"
 let g:SuperTabContextDefaultCompletionType = "<c-n>"
-
-let g:surround_49 = "{{ \r }}"
-let g:surround_50 = "{% \r %}"
-let g:surround_51 = "{% block  \r %}{% endblock %}"
 
 " Syntax highlight settings
 highlight link htmlLink text
