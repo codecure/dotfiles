@@ -13,6 +13,7 @@ Plugin 'yegappan/grep'
 Plugin 'kien/ctrlp.vim'
 Plugin 'nvie/vim-flake8'
 Plugin 'altercation/vim-colors-solarized'
+Plugin 'hynek/vim-python-pep8-indent'
 
 call vundle#end()
 filetype plugin indent on
@@ -106,7 +107,7 @@ autocmd FileType html setlocal shiftwidth=2 tabstop=2 softtabstop=2
 autocmd FileType jinja setlocal shiftwidth=2 tabstop=2 softtabstop=2
 autocmd FileType css setlocal shiftwidth=2 tabstop=2 softtabstop=2
 autocmd FileType less setlocal shiftwidth=2 tabstop=2 softtabstop=2
-autocmd FileType python set completeopt-=preview
+autocmd FileType python setlocal shiftwidth=4 tabstop=4 softtabstop=4
 
 autocmd BufRead *.py set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
 autocmd BufRead *.py inoremap # X<c-h>#
