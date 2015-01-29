@@ -8,11 +8,11 @@ Plugin 'gmarik/Vundle.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'majutsushi/tagbar'
-Plugin 'ervandew/supertab'
 Plugin 'davidhalter/jedi-vim'
-Plugin 'jmcantrell/vim-virtualenv'
 Plugin 'yegappan/grep'
 Plugin 'kien/ctrlp.vim'
+Plugin 'nvie/vim-flake8'
+Plugin 'altercation/vim-colors-solarized'
 
 call vundle#end()
 filetype plugin indent on
@@ -54,7 +54,7 @@ set mouse=a
 " Look'n'feel
 set t_Co=256
 set background=dark
-colorscheme desert
+colorscheme solarized " desert
 
 set ch=1
 
@@ -95,7 +95,7 @@ iab utf! # coding: utf-8
 " Language settings
 set termencoding=utf-8
 set encoding=utf8
-set keymap=russian-jcukenwin
+set keymap=russian-jcuken
 set iminsert=0
 set imsearch=0
 set fileencodings=utf-8,cp1251,koi8-r,cp866
@@ -112,9 +112,6 @@ autocmd BufRead *.py set smartindent cinwords=if,elif,else,for,while,try,except,
 autocmd BufRead *.py inoremap # X<c-h>#
 
 autocmd InsertLeave * call SetUsLayout()
-
-autocmd vimenter * if !argc() | NERDTree | endif
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
 " Remaps
 
@@ -133,6 +130,17 @@ function! SetUsLayout()
     endif
 endfunction
 
+function! VEnv(vname)
+    try
+        execute 'python activate_this = "' .$HOME. '/.virtualenvs/' .a:vname.  '/bin/activate_this.py"'
+        execute 'python execfile(activate_this, dict(__file__=activate_this))'
+    catch
+        echo 'Cannot switch to virtualenv'
+    endtry
+endfunction
+
+command! -nargs=* VEnv call VEnv(<f-args>)
+
 " Plugins settings
 let g:tagbar_compact = 1
 let g:tagbar_autoshowtag = 1
@@ -148,12 +156,12 @@ let g:NERDTreeWinSize = 25
 let g:NERDTreeChDirMode=2
 
 let g:jedi#documentation_command = ""
+let g:jedi#popup_on_dot = 0
 
 let Grep_Skip_Dirs = '.git .hg .idea .vagrant .webassets-cache'
 let Grep_Skip_Files = '*.bak *~ *.pyc'
 
-let g:SuperTabDefaultCompletionType = "context"
-let g:SuperTabContextDefaultCompletionType = "<c-n>"
+let g:flake8_cmd="/usr/local/bin/flake8"
 
 " Syntax highlight settings
 highlight link htmlLink text
