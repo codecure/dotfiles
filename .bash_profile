@@ -15,7 +15,6 @@ export VIRTUALENV_DISTRIBUTE=true
 export PIP_VIRTUALENV_BASE=$HOME/.virtualenvs
 # cache pip-installed packages to avoid re-downloading
 export PIP_DOWNLOAD_CACHE=$HOME/.pip/cache
-export PIP_USE_MIRRORS=1
 
 export WORKON_HOME=$HOME/.virtualenvs
 
