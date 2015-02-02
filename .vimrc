@@ -157,6 +157,7 @@ let g:NERDTreeChDirMode=2
 
 let g:jedi#documentation_command = ""
 let g:jedi#popup_on_dot = 0
+let g:jedi#show_call_signatures = "0"
 
 let Grep_Skip_Dirs = '.git .hg .idea .vagrant .webassets-cache'
 let Grep_Skip_Files = '*.bak *~ *.pyc'
