@@ -16,7 +16,6 @@ Plugin 'hynek/vim-python-pep8-indent'
 Plugin 'tpope/vim-commentary'
 
 call vundle#end()
-filetype plugin indent on
 
 " Default settings
 syntax on
@@ -32,7 +31,7 @@ set wildignore+=*.pyc
 set wildmenu
 set nocompatible
 set laststatus=2
-set statusline=%<\ %f\ %m%r%y\ %{&ff}:%{&fenc}%=%-0.(%4l\/%L:%3c\%)\ [%3p%%]
+set statusline=%<\ %f\ %m%r%y\ %{&ff}:%{&fenc}\ %{tagbar#currenttag('%s','')}%=%-0.(%4l\/%L:%3c\%)
 set ignorecase
 set wildignorecase
 set incsearch
