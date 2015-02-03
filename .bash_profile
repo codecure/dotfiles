@@ -24,7 +24,10 @@ source /usr/local/bin/virtualenvwrapper.sh
 
 export EDITOR='nano'
 
-export DOCKER_HOST=tcp://$(boot2docker ip 2>/dev/null):2375
+# Docker conf
+export DOCKER_HOST=tcp://$(boot2docker ip 2>/dev/null):2376
+export DOCKER_CERT_PATH=~/.boot2docker/certs/boot2docker-vm
+export DOCKER_TLS_VERIFY=1
 
 export GREP_OPTIONS="--color=auto"
 
