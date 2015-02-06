@@ -11,9 +11,9 @@ Plugin 'davidhalter/jedi-vim'
 Plugin 'yegappan/grep'
 Plugin 'kien/ctrlp.vim'
 Plugin 'nvie/vim-flake8'
-Plugin 'altercation/vim-colors-solarized'
 Plugin 'hynek/vim-python-pep8-indent'
 Plugin 'tpope/vim-commentary'
+Plugin 'jonathanfilip/vim-lucius'
 
 call vundle#end()
 
@@ -54,7 +54,7 @@ set mouse=a
 " Look'n'feel
 set t_Co=256
 set background=dark
-colorscheme solarized " desert
+colorscheme lucius " desert
 
 set ch=1
 
@@ -106,7 +106,7 @@ autocmd FileType html setlocal shiftwidth=2 tabstop=2 softtabstop=2
 autocmd FileType jinja setlocal shiftwidth=2 tabstop=2 softtabstop=2
 autocmd FileType css setlocal shiftwidth=2 tabstop=2 softtabstop=2
 autocmd FileType less setlocal shiftwidth=2 tabstop=2 softtabstop=2
-autocmd FileType python setlocal shiftwidth=4 tabstop=4 softtabstop=4
+autocmd FileType python setlocal shiftwidth=4 tabstop=4 softtabstop=4 completeopt-=preview
 
 autocmd BufRead *.py set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
 autocmd BufRead *.py inoremap # X<c-h>#
@@ -153,7 +153,7 @@ let python_highlight_all = 1
 let NERDTreeIgnore = ['\.pyc$']
 let NERDTreeMinimalUI = 1
 let g:NERDTreeWinSize = 25
-let g:NERDTreeChDirMode=2
+let g:NERDTreeChDirMode = 2
 
 let g:jedi#documentation_command = ""
 let g:jedi#popup_on_dot = 0
@@ -166,3 +166,4 @@ let g:flake8_cmd="/usr/local/bin/flake8"
 
 " Syntax highlight settings
 highlight link htmlLink text
+highlight StatusLine gui=none

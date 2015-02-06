@@ -31,7 +31,14 @@ export DOCKER_TLS_VERIFY=1
 
 export GREP_OPTIONS="--color=auto"
 
-alias pp="export PYTHONPATH=$(pwd):$PYTHONPATH"
 alias ls="ls -G"
 alias ssh-forward='ssh -f -N'
 complete -o default -o nospace -F _ssh ssh-forward
+
+# Functions
+pypath() {
+    CURDIR=$(pwd)
+    if [ -d "$CURDIR" ] && [[ ":$PYTHONPATH:" != *":$CURDIR:"* ]]; then
+        PYTHONPATH="$CURDIR:$PYTHONPATH"
+    fi
+}
