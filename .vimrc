@@ -31,18 +31,19 @@ set wildignore+=*.pyc
 set wildmenu
 set nocompatible
 set laststatus=2
-set statusline=%<\ %f\ %m%r%y\ %{&ff}:%{&fenc}\ %{tagbar#currenttag('%s','')}%=%-0.(%4l\/%L:%3c\%)
+set statusline=%<\ %f\ %m%r%y\ %{&ff}:%{&fenc}\ %{tagbar#currenttag('%s','')}%=%-0.(%4l\/%L:%3c\ %)
 set ignorecase
 set wildignorecase
 set incsearch
 set autoindent
 set listchars=tab:»·,trail:·
 set list
-set nocursorline
+set cursorline
 set shiftround
 set history=1000
 set undolevels=1000
 set visualbell t_vb=
+set scrolloff=3
 
 set tabstop=4
 set shiftwidth=4
@@ -71,6 +72,11 @@ nmap <S-h> 7h
 nmap <S-j> 7j
 nmap <S-k> 7k
 nmap <S-l> 7l
+
+nmap <silent> <c-k> :wincmd k<CR>
+nmap <silent> <c-j> :wincmd j<CR>
+nmap <silent> <c-h> :wincmd h<CR>
+nmap <silent> <c-l> :wincmd l<CR>
 
 map <F1> :Rgrep -i<cr>
 vmap <F1> <esc>:Rgrep -i<cr>

@@ -41,4 +41,5 @@ pypath() {
     if [ -d "$CURDIR" ] && [[ ":$PYTHONPATH:" != *":$CURDIR:"* ]]; then
         PYTHONPATH="$CURDIR:$PYTHONPATH"
     fi
+    export PYTHONPATH
 }
