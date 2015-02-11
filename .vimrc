@@ -121,7 +121,7 @@ autocmd InsertLeave * call SetUsLayout()
 
 " Remaps
 nnoremap <leader>b oimport ipdb; ipdb.set_trace()<Esc>
-inoremap jj <ESC>
+inoremap ii <ESC>
 
 " Functions
 function! ToggleListChars()
