@@ -1,6 +1,7 @@
 set guifont=Menlo:h14
 set guiheadroom=0
 
+set guioptions-=e
 set guioptions-=r
 set guioptions-=R
 set guioptions-=l

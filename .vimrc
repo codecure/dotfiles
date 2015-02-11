@@ -56,6 +56,7 @@ set mouse=a
 set t_Co=256
 set background=dark
 colorscheme lucius " desert
+set tabline=%!Tabline()
 
 set ch=1
 
@@ -106,6 +107,7 @@ set iminsert=0
 set imsearch=0
 set fileencodings=utf-8,cp1251,koi8-r,cp866
 set iskeyword=@,48-57,_,192-255
+set langmap=ФИСВУАПРШОЛДЬТЩЗЙКЫЕГМЦЧНЯ;ABCDEFGHIJKLMNOPQRSTUVWXYZ,фисвуапршолдьтщзйкыегмцчня;abcdefghijklmnopqrstuvwxyz
 
 " Autocmds
 autocmd FileType html setlocal shiftwidth=2 tabstop=2 softtabstop=2
@@ -145,6 +147,30 @@ function! VEnv(vname)
     catch
         echo 'Cannot switch to virtualenv'
     endtry
+endfunction
+
+function! Tabline()
+  let s = ''
+  for i in range(tabpagenr('$'))
+    let tab = i + 1
+    let winnr = tabpagewinnr(tab)
+    let buflist = tabpagebuflist(tab)
+    let bufnr = buflist[winnr - 1]
+    let bufname = bufname(bufnr)
+    let bufmodified = getbufvar(bufnr, "&mod")
+
+    let s .= '%' . tab . 'T'
+    let s .= (tab == tabpagenr() ? '%#TabLineSel#' : '%#TabLine#')
+    let s .= ' ' . tab .':'
+    let s .= (bufname != '' ? '['. fnamemodify(bufname, ':t') . '] ' : '[No Name] ')
+
+    if bufmodified
+      let s .= '[+] '
+    endif
+  endfor
+
+  let s .= '%#TabLineFill#'
+  return s
 endfunction
 
 command! -nargs=* VEnv call VEnv(<f-args>)
