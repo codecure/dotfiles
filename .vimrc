@@ -120,6 +120,8 @@ autocmd BufRead *.py inoremap # X<c-h>#
 autocmd InsertLeave * call SetUsLayout()
 
 " Remaps
+nnoremap <leader>b oimport ipdb; ipdb.set_trace()<Esc>
+inoremap jj <ESC>
 
 " Functions
 function! ToggleListChars()
@@ -161,7 +163,7 @@ let NERDTreeMinimalUI = 1
 let g:NERDTreeWinSize = 25
 let g:NERDTreeChDirMode = 2
 
-let g:jedi#documentation_command = ""
+let g:jedi#documentation_command = "<leader>k"
 let g:jedi#popup_on_dot = 0
 let g:jedi#show_call_signatures = "0"
 
