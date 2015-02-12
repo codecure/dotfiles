@@ -107,7 +107,6 @@ set iminsert=0
 set imsearch=0
 set fileencodings=utf-8,cp1251,koi8-r,cp866
 set iskeyword=@,48-57,_,192-255
-set langmap=ФИСВУАПРШОЛДЬТЩЗЙКЫЕГМЦЧНЯ;ABCDEFGHIJKLMNOPQRSTUVWXYZ,фисвуапршолдьтщзйкыегмцчня;abcdefghijklmnopqrstuvwxyz
 
 " Autocmds
 autocmd FileType html setlocal shiftwidth=2 tabstop=2 softtabstop=2
