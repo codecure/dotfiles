@@ -11,7 +11,7 @@ Plugin 'kien/ctrlp.vim'
 Plugin 'nvie/vim-flake8'
 Plugin 'hynek/vim-python-pep8-indent'
 Plugin 'tpope/vim-commentary'
-Plugin 'jonathanfilip/vim-lucius'
+Plugin 'vim-scripts/xoria256.vim'
 
 call vundle#end()
 
@@ -28,13 +28,14 @@ set wildmode=longest,list,full
 set wildignore+=*.pyc
 set wildmenu
 set nocompatible
+set backspace=2
 set laststatus=2
 set statusline=%<\ %f\ %m%r%y\ %{&ff}:%{&fenc}\ %{tagbar#currenttag('%s','')}%=%-0.(%4l\/%L:%3c\ %)
 set ignorecase
 set wildignorecase
 set incsearch
 set autoindent
-set listchars=tab:»·,trail:·
+set listchars=tab:▸\ ,trail:·,extends:❯,precedes:❮,nbsp:×
 set list
 set cursorline
 set shiftround
@@ -53,18 +54,19 @@ set mouse=a
 " Look'n'feel
 set t_Co=256
 set background=dark
-colorscheme lucius " desert
+colorscheme xoria256
 set tabline=%!Tabline()
 
 set ch=1
 
-set lines=40
-set columns=120
-
 " Shortcuts
+let mapleader = ","
+set pastetoggle=<Leader>p
 map <leader>q :wincmd q<cr>
 map <leader>c :call ToggleListChars()<cr>
-map <leader>p :set invpaste paste?<cr>
+map <leader>l :set invnumber number?<cr>
+nnoremap <leader>b oimport ipdb; ipdb.set_trace()<Esc>
+nnoremap <leader>B Oimport ipdb; ipdb.set_trace()<Esc>
 
 nmap <silent> <c-k> :wincmd k<CR>
 nmap <silent> <c-j> :wincmd j<CR>
@@ -110,12 +112,12 @@ autocmd FileType python setlocal shiftwidth=4 tabstop=4 softtabstop=4 completeop
 autocmd BufRead *.py set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
 autocmd BufRead *.py inoremap # X<c-h>#
 
-autocmd InsertLeave * call SetUsLayout()
-
 " Remaps
-nnoremap <leader>b oimport ipdb; ipdb.set_trace()<Esc>
-nnoremap <leader>B Oimport ipdb; ipdb.set_trace()<Esc>
 inoremap ii <ESC>
+nnoremap <Tab> gt
+nnoremap <S-Tab> gT
+nnoremap <leader>m :call ToggleMouse()<CR>
+nnoremap <silent> <Esc><Esc> :nohlsearch<CR><Esc>
 
 " Functions
 function! ToggleListChars()
@@ -123,12 +125,6 @@ function! ToggleListChars()
         set nolist
     else
         set list
-    endif
-endfunction
-
-function! SetUsLayout()
-    if &iminsert != 0
-        let &iminsert = 0
     endif
 endfunction
 
@@ -186,6 +182,16 @@ function! VimGrep()
     execute 'vimgrep /' .pattern. '/gj **/' .file_mask. ' | :cw'
 endfunction
 
+function! ToggleMouse()
+    if &mouse == 'a'
+        set mouse=
+        echo "Mouse usage disabled"
+    else
+        set mouse=a
+        echo "Mouse usage enabled"
+    endif
+endfunction
+
 command! -nargs=1 Activate call Activate(<f-args>)
 command! -nargs=1 VEnv call VEnv(<f-args>)
 command! PyPath call PyPath()
@@ -208,6 +214,9 @@ let g:jedi#completions_command = "<C-x><C-o>"
 let g:jedi#auto_close_doc = 1
 
 let g:flake8_cmd = "/usr/local/bin/flake8"
+
+let g:ctrlp_extensions = ['buffertag', 'line']
+let g:ctrlp_working_path_mode = 0
 
 " Syntax highlight settings
 highlight link htmlLink text
