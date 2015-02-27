@@ -43,6 +43,7 @@ set history=1000
 set undolevels=1000
 set visualbell t_vb=
 set scrolloff=3
+set clipboard=unnamed
 
 set tabstop=4
 set shiftwidth=4
@@ -50,6 +51,8 @@ set softtabstop=4
 set expandtab
 set switchbuf+=usetab,newtab
 set mouse=a
+
+set shortmess+=I
 
 " Look'n'feel
 set t_Co=256
@@ -114,8 +117,6 @@ autocmd BufRead *.py inoremap # X<c-h>#
 
 " Remaps
 inoremap ii <ESC>
-nnoremap <Tab> gt
-nnoremap <S-Tab> gT
 nnoremap <leader>m :call ToggleMouse()<CR>
 nnoremap <silent> <Esc><Esc> :nohlsearch<CR><Esc>
 
