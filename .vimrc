@@ -5,13 +5,21 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'gmarik/Vundle.vim'
+Plugin 'scrooloose/nerdtree'
 Plugin 'majutsushi/tagbar'
-Plugin 'davidhalter/jedi-vim'
 Plugin 'kien/ctrlp.vim'
-Plugin 'nvie/vim-flake8'
 Plugin 'hynek/vim-python-pep8-indent'
+Plugin 'jmcantrell/vim-virtualenv'
+Plugin 'nvie/vim-flake8'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-commentary'
+Plugin 'altercation/vim-colors-solarized'
 Plugin 'vim-scripts/xoria256.vim'
+Plugin 'tejr/sahara'
+Plugin 'Raimondi/delimitMate'
+Plugin 'ervandew/supertab'
+Plugin 'rking/ag.vim'
 
 call vundle#end()
 
@@ -30,10 +38,11 @@ set wildmenu
 set nocompatible
 set backspace=2
 set laststatus=2
-set statusline=%<\ %f\ %m%r%y\ %{&ff}:%{&fenc}\ %{tagbar#currenttag('%s','')}%=%-0.(%4l\/%L:%3c\ %)
+set statusline=%<\ %f\ %m%r%y\ %{&ff}:%{&fenc}\ %{tagbar#currenttag('%s','')}%=%-0.(%4l\/%L:%3v\ %)
 set ignorecase
 set wildignorecase
 set incsearch
+set hlsearch
 set autoindent
 set listchars=tab:▸\ ,trail:·,extends:❯,precedes:❮,nbsp:×
 set list
@@ -43,54 +52,65 @@ set history=1000
 set undolevels=1000
 set visualbell t_vb=
 set scrolloff=3
-set clipboard=unnamed
 
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
 set expandtab
 set switchbuf+=usetab,newtab
-set mouse=a
+set mouse=
 
 set shortmess+=I
 
+set tags=./tags,.git/tags,$VIRTUAL_ENV/tags
+
 " Look'n'feel
 set t_Co=256
-set background=dark
-colorscheme xoria256
+set background=dark "ligth
+colorscheme solarized "sahara  "xoria256
 set tabline=%!Tabline()
 
 set ch=1
 
 " Shortcuts
 let mapleader = ","
-set pastetoggle=<Leader>p
 map <leader>q :wincmd q<cr>
-map <leader>c :call ToggleListChars()<cr>
-map <leader>l :set invnumber number?<cr>
+map <leader>ch :set list!<cr>
+map <leader>f :cw<cr>
+map <leader>fc :cclose<cr>
+nnoremap <leader>t :call Tags()<cr>
 nnoremap <leader>b oimport ipdb; ipdb.set_trace()<Esc>
 nnoremap <leader>B Oimport ipdb; ipdb.set_trace()<Esc>
 
-nmap <silent> <c-k> :wincmd k<CR>
-nmap <silent> <c-j> :wincmd j<CR>
-nmap <silent> <c-h> :wincmd h<CR>
-nmap <silent> <c-l> :wincmd l<CR>
+nmap <silent> <c-k> :wincmd k<cr>
+nmap <silent> <c-j> :wincmd j<cr>
+nmap <silent> <c-h> :wincmd h<cr>
+nmap <silent> <c-l> :wincmd l<cr>
 
-map <F1> :call VimGrep()<cr>
-vmap <F1> <esc>:call VimGrep()<cr>
-imap <F1> <esc>:call VimGrep()<cr>
+map <S-left> gT
+map <S-right> gt
+
+map <F1> <esc>
+vmap <F1> <esc>
+imap <F1> <esc>
 
 map <F2> :w<cr>
 vmap <F2> <esc>:w<cr>
 imap <F2> <esc>:w<cr>
 
-map <F3> :Texplore<cr>
-vmap <F3> <esc>:Texplore<cr>
-imap <F3> <esc>:Texplore<cr>
+map <F3> :NERDTreeToggle<cr>
+vmap <F3> <esc>:NERDTreeToggle<cr>
+imap <F3> <esc>:NERDTreeToggle<cr>
 
 map <F4> :TagbarToggle<cr>
 vmap <F4> <esc>:TagbarToggle<cr>
 imap <F4> <esc>:TagbarToggle<cr>
+
+map <F5> :set nu!<cr>
+vmap <F5> <esc>:set nu!<cr>
+imap <F5> <esc>:set nu!<cr>
+
+set pastetoggle=<F6>
 
 " Abbrevs
 iab ipdb! import ipdb; ipdb.set_trace()
@@ -117,36 +137,23 @@ autocmd BufRead *.py inoremap # X<c-h>#
 
 " Remaps
 inoremap ii <ESC>
-nnoremap <leader>m :call ToggleMouse()<CR>
 nnoremap <silent> <Esc><Esc> :nohlsearch<CR><Esc>
 
-" Functions
-function! ToggleListChars()
-    if &list
-        set nolist
+function! Tags()
+    let venv = $VIRTUAL_ENV
+    let git_dir = '.git'
+
+    if len(venv)
+        let ctags_cmd = '!ctags -R -f ' .venv. '/tags --python-kinds=-i --tag-relative=yes --exclude=.git . ' .venv. '/lib/python2.7/site-packages'
+        if isdirectory(venv.'/src/')
+            execute ctags_cmd. ' ' .venv. '/src'
+        else
+            execute ctags_cmd
+        endif
+    elseif isdirectory(git_dir)
+        execute '!ctags -R -f ' .git_dir. '/tags --python-kinds=-i --tag-relative=yes --exclude=.git .'
     else
-        set list
-    endif
-endfunction
-
-function! Activate(venv_name)
-    call PyPath()
-    call VEnv(a:venv_name)
-endfunction
-
-function! VEnv(vname)
-    try
-        execute 'python activate_this = "' .$HOME. '/.virtualenvs/' .a:vname.  '/bin/activate_this.py"'
-        execute 'python execfile(activate_this, dict(__file__=activate_this))'
-    catch
-        echo 'Cannot switch to virtualenv'
-    endtry
-endfunction
-
-function! PyPath()
-    let cwd = getcwd()
-    if match($PYTHONPATH, cwd) < 0
-        let $PYTHONPATH=cwd. ':' .$PYTHONPATH
+        execute '!ctags -R --tag-relative=yes --exclude=.git .'
     endif
 endfunction
 
@@ -174,29 +181,6 @@ function! Tabline()
   return s
 endfunction
 
-function! VimGrep()
-    let pattern = input('Search pattern: ')
-    if pattern == ''
-        return
-    endif
-    let file_mask = input('File mask: ', '*.*')
-    execute 'vimgrep /' .pattern. '/gj **/' .file_mask. ' | :cw'
-endfunction
-
-function! ToggleMouse()
-    if &mouse == 'a'
-        set mouse=
-        echo "Mouse usage disabled"
-    else
-        set mouse=a
-        echo "Mouse usage enabled"
-    endif
-endfunction
-
-command! -nargs=1 Activate call Activate(<f-args>)
-command! -nargs=1 VEnv call VEnv(<f-args>)
-command! PyPath call PyPath()
-
 " Plugins settings
 let g:tagbar_compact = 1
 let g:tagbar_autoshowtag = 1
@@ -206,18 +190,19 @@ let g:tagbar_width = 25
 
 let python_highlight_all = 1
 
-let g:netrw_list_hide= '.*\.pyc$'
-
-let g:jedi#documentation_command = "<leader>k"
-let g:jedi#popup_on_dot = 0
-let g:jedi#show_call_signatures = "0"
-let g:jedi#completions_command = "<C-x><C-o>"
-let g:jedi#auto_close_doc = 1
+let NERDTreeIgnore = ['\.pyc$']
+let NERDTreeMinimalUI = 1
+let g:NERDTreeWinSize = 25
+let g:NERDTreeChDirMode = 2
 
 let g:flake8_cmd = "/usr/local/bin/flake8"
 
 let g:ctrlp_extensions = ['buffertag', 'line']
 let g:ctrlp_working_path_mode = 0
+let g:ctrlp_cmd = 'CtrlPMixed'
+let g:ctrlp_mruf_relative = 1
+
+let g:nerdtree_tabs_open_on_gui_startup = 0
 
 " Syntax highlight settings
 highlight link htmlLink text
