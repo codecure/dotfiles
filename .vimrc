@@ -18,8 +18,8 @@ Plugin 'altercation/vim-colors-solarized'
 Plugin 'vim-scripts/xoria256.vim'
 Plugin 'tejr/sahara'
 Plugin 'Raimondi/delimitMate'
-Plugin 'ervandew/supertab'
-Plugin 'rking/ag.vim'
+Plugin 'mattn/emmet-vim'
+Plugin 'mileszs/ack.vim'
 
 call vundle#end()
 
@@ -52,6 +52,11 @@ set history=1000
 set undolevels=1000
 set visualbell t_vb=
 set scrolloff=3
+set guioptions-=e
+set foldmethod=indent
+set nofoldenable
+set lazyredraw
+set modelines=1
 
 set tabstop=4
 set shiftwidth=4
@@ -67,25 +72,16 @@ set tags=./tags,.git/tags,$VIRTUAL_ENV/tags
 " Look'n'feel
 set t_Co=256
 set background=dark "ligth
-colorscheme solarized "sahara  "xoria256
-set tabline=%!Tabline()
+colorscheme solarize "sahara "xoria256
 
 set ch=1
 
 " Shortcuts
 let mapleader = ","
-map <leader>q :wincmd q<cr>
-map <leader>ch :set list!<cr>
 map <leader>f :cw<cr>
 map <leader>fc :cclose<cr>
-nnoremap <leader>t :call Tags()<cr>
 nnoremap <leader>b oimport ipdb; ipdb.set_trace()<Esc>
 nnoremap <leader>B Oimport ipdb; ipdb.set_trace()<Esc>
-
-nmap <silent> <c-k> :wincmd k<cr>
-nmap <silent> <c-j> :wincmd j<cr>
-nmap <silent> <c-h> :wincmd h<cr>
-nmap <silent> <c-l> :wincmd l<cr>
 
 map <S-left> gT
 map <S-right> gt
@@ -157,29 +153,7 @@ function! Tags()
     endif
 endfunction
 
-function! Tabline()
-  let s = ''
-  for i in range(tabpagenr('$'))
-    let tab = i + 1
-    let winnr = tabpagewinnr(tab)
-    let buflist = tabpagebuflist(tab)
-    let bufnr = buflist[winnr - 1]
-    let bufname = bufname(bufnr)
-    let bufmodified = getbufvar(bufnr, "&mod")
-
-    let s .= '%' . tab . 'T'
-    let s .= (tab == tabpagenr() ? '%#TabLineSel#' : '%#TabLine#')
-    let s .= ' ' . tab .':'
-    let s .= (bufname != '' ? '['. fnamemodify(bufname, ':t') . '] ' : '[No Name] ')
-
-    if bufmodified
-      let s .= '[+] '
-    endif
-  endfor
-
-  let s .= '%#TabLineFill#'
-  return s
-endfunction
+command! MkTags call Tags()
 
 " Plugins settings
 let g:tagbar_compact = 1
@@ -203,6 +177,8 @@ let g:ctrlp_cmd = 'CtrlPMixed'
 let g:ctrlp_mruf_relative = 1
 
 let g:nerdtree_tabs_open_on_gui_startup = 0
+
+let g:ackprg = "ack -i"
 
 " Syntax highlight settings
 highlight link htmlLink text
