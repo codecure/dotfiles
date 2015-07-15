@@ -15,8 +15,6 @@ Plugin 'airblade/vim-gitgutter'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-commentary'
 Plugin 'altercation/vim-colors-solarized'
-Plugin 'vim-scripts/xoria256.vim'
-Plugin 'tejr/sahara'
 Plugin 'Raimondi/delimitMate'
 Plugin 'mattn/emmet-vim'
 Plugin 'mileszs/ack.vim'
@@ -71,8 +69,8 @@ set tags=./tags,.git/tags,$VIRTUAL_ENV/tags
 
 " Look'n'feel
 set t_Co=256
-set background=dark "ligth
-colorscheme solarize "sahara "xoria256
+set background=dark "light
+colorscheme solarized
 
 set ch=1
 
