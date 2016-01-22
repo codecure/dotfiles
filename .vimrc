@@ -5,18 +5,39 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'gmarik/Vundle.vim'
+
+" File
 Plugin 'scrooloose/nerdtree'
-Plugin 'majutsushi/tagbar'
+Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'kien/ctrlp.vim'
+
+" Python
 Plugin 'hynek/vim-python-pep8-indent'
 Plugin 'jmcantrell/vim-virtualenv'
-Plugin 'nvie/vim-flake8'
+Plugin 'davidhalter/jedi-vim'
+
+" Html
+Plugin 'mattn/emmet-vim'
+Plugin 'gregsexton/MatchTag'
+Plugin 'othree/html5.vim'
+
+" Programming
+Plugin 'majutsushi/tagbar'
+Plugin 'tpope/vim-commentary'
+Plugin 'scrooloose/syntastic'
+Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-repeat'
+
+" Vcs
 Plugin 'airblade/vim-gitgutter'
 Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-commentary'
+
+" Colors
 Plugin 'altercation/vim-colors-solarized'
-Plugin 'Raimondi/delimitMate'
-Plugin 'mattn/emmet-vim'
+Plugin 'vim-scripts/xoria256.vim'
+Plugin 'vim-scripts/wombat256.vim'
+
+" Other
 Plugin 'mileszs/ack.vim'
 
 call vundle#end()
@@ -55,38 +76,37 @@ set foldmethod=indent
 set nofoldenable
 set lazyredraw
 set modelines=1
+set clipboard=unnamed
 
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
 set expandtab
 set switchbuf+=usetab,newtab
-set mouse=
+set mouse=a  " on OSX press ALT and click"
 
 set shortmess+=I
-
-set tags=./tags,.git/tags,$VIRTUAL_ENV/tags
 
 " Look'n'feel
 set t_Co=256
 set background=dark "light
-colorscheme solarized
+colorscheme wombat256mod
+set guifont=Input:h14
 
 set ch=1
 
 " Shortcuts
 let mapleader = ","
-map <leader>f :cw<cr>
-map <leader>fc :cclose<cr>
 nnoremap <leader>b oimport ipdb; ipdb.set_trace()<Esc>
 nnoremap <leader>B Oimport ipdb; ipdb.set_trace()<Esc>
+command! -nargs=+ -complete=file -bar AckSearch Ack! <args>
 
 map <S-left> gT
 map <S-right> gt
 
-map <F1> <esc>
-vmap <F1> <esc>
-imap <F1> <esc>
+map <F1> :AckSearch<space>
+vmap <F1> :AckSearch<space>
+imap <F1> :AckSearch<space>
 
 map <F2> :w<cr>
 vmap <F2> <esc>:w<cr>
@@ -100,14 +120,13 @@ map <F4> :TagbarToggle<cr>
 vmap <F4> <esc>:TagbarToggle<cr>
 imap <F4> <esc>:TagbarToggle<cr>
 
-map <F5> :set nu!<cr>
-vmap <F5> <esc>:set nu!<cr>
-imap <F5> <esc>:set nu!<cr>
+map <F5> :CtrlPBuffer<cr>
+vmap <F5> <esc>:CtrlPBuffer<cr>
+imap <F5> <esc>:CtrlPBuffer<cr>
 
 set pastetoggle=<F6>
 
 " Abbrevs
-iab ipdb! import ipdb; ipdb.set_trace()
 iab utf! # coding: utf-8
 
 " Language settings
@@ -120,11 +139,8 @@ set fileencodings=utf-8,cp1251,koi8-r,cp866
 set iskeyword=@,48-57,_,192-255
 
 " Autocmds
-autocmd FileType html setlocal shiftwidth=2 tabstop=2 softtabstop=2
-autocmd FileType jinja setlocal shiftwidth=2 tabstop=2 softtabstop=2
-autocmd FileType css setlocal shiftwidth=2 tabstop=2 softtabstop=2
-autocmd FileType less setlocal shiftwidth=2 tabstop=2 softtabstop=2
-autocmd FileType python setlocal shiftwidth=4 tabstop=4 softtabstop=4 completeopt-=preview
+autocmd FileType python setlocal completeopt-=preview
+autocmd FileType htmldjango setlocal commentstring={#%s#}
 
 autocmd BufRead *.py set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
 autocmd BufRead *.py inoremap # X<c-h>#
@@ -132,26 +148,6 @@ autocmd BufRead *.py inoremap # X<c-h>#
 " Remaps
 inoremap ii <ESC>
 nnoremap <silent> <Esc><Esc> :nohlsearch<CR><Esc>
-
-function! Tags()
-    let venv = $VIRTUAL_ENV
-    let git_dir = '.git'
-
-    if len(venv)
-        let ctags_cmd = '!ctags -R -f ' .venv. '/tags --python-kinds=-i --tag-relative=yes --exclude=.git . ' .venv. '/lib/python2.7/site-packages'
-        if isdirectory(venv.'/src/')
-            execute ctags_cmd. ' ' .venv. '/src'
-        else
-            execute ctags_cmd
-        endif
-    elseif isdirectory(git_dir)
-        execute '!ctags -R -f ' .git_dir. '/tags --python-kinds=-i --tag-relative=yes --exclude=.git .'
-    else
-        execute '!ctags -R --tag-relative=yes --exclude=.git .'
-    endif
-endfunction
-
-command! MkTags call Tags()
 
 " Plugins settings
 let g:tagbar_compact = 1
@@ -167,8 +163,6 @@ let NERDTreeMinimalUI = 1
 let g:NERDTreeWinSize = 25
 let g:NERDTreeChDirMode = 2
 
-let g:flake8_cmd = "/usr/local/bin/flake8"
-
 let g:ctrlp_extensions = ['buffertag', 'line']
 let g:ctrlp_working_path_mode = 0
 let g:ctrlp_cmd = 'CtrlPMixed'
@@ -177,6 +171,10 @@ let g:ctrlp_mruf_relative = 1
 let g:nerdtree_tabs_open_on_gui_startup = 0
 
 let g:ackprg = "ack -i"
+
+let g:syntastic_python_checkers=['flake8']
+let g:syntastic_python_flake8_exec='/usr/local/bin/flake8'
+let g:syntastic_python_flake8_args='--max-line-length=120'
 
 " Syntax highlight settings
 highlight link htmlLink text
