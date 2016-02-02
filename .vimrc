@@ -9,12 +9,13 @@ Plugin 'gmarik/Vundle.vim'
 " File
 Plugin 'scrooloose/nerdtree'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
-Plugin 'kien/ctrlp.vim'
+Plugin 'ctrlpvim/ctrlp.vim'
 
 " Python
 Plugin 'hynek/vim-python-pep8-indent'
 Plugin 'jmcantrell/vim-virtualenv'
 Plugin 'davidhalter/jedi-vim'
+Plugin 'hdima/python-syntax'
 
 " Html
 Plugin 'mattn/emmet-vim'
@@ -33,12 +34,14 @@ Plugin 'airblade/vim-gitgutter'
 Plugin 'tpope/vim-fugitive'
 
 " Colors
-Plugin 'altercation/vim-colors-solarized'
 Plugin 'vim-scripts/xoria256.vim'
 Plugin 'vim-scripts/wombat256.vim'
+Plugin 'NLKNguyen/papercolor-theme'
 
 " Other
 Plugin 'mileszs/ack.vim'
+Plugin 'gcmt/taboo.vim'
+Plugin 'jlanzarotta/bufexplorer'
 
 call vundle#end()
 
@@ -82,27 +85,29 @@ set tabstop=4
 set shiftwidth=4
 set softtabstop=4
 set expandtab
-set switchbuf+=usetab,newtab
 set mouse=a  " on OSX press ALT and click"
 
 set shortmess+=I
 
 " Look'n'feel
 set t_Co=256
-set background=dark "light
-colorscheme wombat256mod
+set background=light "dark
+colorscheme PaperColor
 set guifont=Input:h14
 
 set ch=1
 
 " Shortcuts
 let mapleader = ","
+
 nnoremap <leader>b oimport ipdb; ipdb.set_trace()<Esc>
 nnoremap <leader>B Oimport ipdb; ipdb.set_trace()<Esc>
+nnoremap Q <nop>
+
 command! -nargs=+ -complete=file -bar AckSearch Ack! <args>
 
-map <S-left> gT
-map <S-right> gt
+map <S-left> :bp<cr>
+map <S-right> :bn<cr>
 
 map <F1> :AckSearch<space>
 vmap <F1> :AckSearch<space>
@@ -120,9 +125,13 @@ map <F4> :TagbarToggle<cr>
 vmap <F4> <esc>:TagbarToggle<cr>
 imap <F4> <esc>:TagbarToggle<cr>
 
-map <F5> :CtrlPBuffer<cr>
-vmap <F5> <esc>:CtrlPBuffer<cr>
-imap <F5> <esc>:CtrlPBuffer<cr>
+" map <F5> :ls<cr>:b<space>
+" vmap <F5> :ls<cr>:b<space>
+" imap <F5> :ls<cr>:b<space>
+
+map <F5> :ToggleBufExplorer<cr>
+vmap <F5> :ToggleBufExplorer<cr>
+imap <F5> :ToggleBufExplorer<cr>
 
 set pastetoggle=<F6>
 
@@ -163,18 +172,19 @@ let NERDTreeMinimalUI = 1
 let g:NERDTreeWinSize = 25
 let g:NERDTreeChDirMode = 2
 
-let g:ctrlp_extensions = ['buffertag', 'line']
+let g:ctrlp_extensions = ['buffertag']
 let g:ctrlp_working_path_mode = 0
 let g:ctrlp_cmd = 'CtrlPMixed'
 let g:ctrlp_mruf_relative = 1
-
-let g:nerdtree_tabs_open_on_gui_startup = 0
 
 let g:ackprg = "ack -i"
 
 let g:syntastic_python_checkers=['flake8']
 let g:syntastic_python_flake8_exec='/usr/local/bin/flake8'
 let g:syntastic_python_flake8_args='--max-line-length=120'
+
+let g:python_highlight_all = 1
+let g:python_version_2 = 1
 
 " Syntax highlight settings
 highlight link htmlLink text
