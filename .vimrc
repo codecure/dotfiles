@@ -8,7 +8,6 @@ Plugin 'gmarik/Vundle.vim'
 
 " File
 Plugin 'scrooloose/nerdtree'
-Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'ctrlpvim/ctrlp.vim'
 
 " Python
@@ -18,7 +17,6 @@ Plugin 'davidhalter/jedi-vim'
 Plugin 'hdima/python-syntax'
 
 " Html
-Plugin 'mattn/emmet-vim'
 Plugin 'gregsexton/MatchTag'
 Plugin 'othree/html5.vim'
 
@@ -26,8 +24,8 @@ Plugin 'othree/html5.vim'
 Plugin 'majutsushi/tagbar'
 Plugin 'tpope/vim-commentary'
 Plugin 'scrooloose/syntastic'
-Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-repeat'
+Plugin 'michaeljsmith/vim-indent-object'
 
 " Vcs
 Plugin 'airblade/vim-gitgutter'
@@ -36,7 +34,6 @@ Plugin 'tpope/vim-fugitive'
 " Colors
 Plugin 'vim-scripts/xoria256.vim'
 Plugin 'vim-scripts/wombat256.vim'
-Plugin 'NLKNguyen/papercolor-theme'
 
 " Other
 Plugin 'mileszs/ack.vim'
@@ -60,7 +57,7 @@ set wildmenu
 set nocompatible
 set backspace=2
 set laststatus=2
-set statusline=%<\ %f\ %m%r%y\ %{&ff}:%{&fenc}\ %{tagbar#currenttag('%s','')}%=%-0.(%4l\/%L:%3v\ %)
+set statusline=%<\ %f\ %m%r%y\ %{&ff}:%{&fenc}\ %{tagbar#currenttag('%s','')}%=%-0.(%{fugitive#statusline()}%4l\/%L:%3v\ %)
 set ignorecase
 set wildignorecase
 set incsearch
@@ -91,9 +88,10 @@ set shortmess+=I
 
 " Look'n'feel
 set t_Co=256
-set background=light "dark
-colorscheme PaperColor
-set guifont=Input:h14
+set background=dark
+colorscheme xoria256
+" set macligatures
+set guifont=Fira\ Code:h14
 
 set ch=1
 
@@ -113,10 +111,6 @@ map <F1> :AckSearch<space>
 vmap <F1> :AckSearch<space>
 imap <F1> :AckSearch<space>
 
-map <F2> :w<cr>
-vmap <F2> <esc>:w<cr>
-imap <F2> <esc>:w<cr>
-
 map <F3> :NERDTreeToggle<cr>
 vmap <F3> <esc>:NERDTreeToggle<cr>
 imap <F3> <esc>:NERDTreeToggle<cr>
@@ -133,10 +127,8 @@ map <F5> :ToggleBufExplorer<cr>
 vmap <F5> :ToggleBufExplorer<cr>
 imap <F5> :ToggleBufExplorer<cr>
 
-set pastetoggle=<F6>
-
 " Abbrevs
-iab utf! # coding: utf-8
+iab enc! # coding: utf-8
 
 " Language settings
 set termencoding=utf-8
@@ -172,7 +164,7 @@ let NERDTreeMinimalUI = 1
 let g:NERDTreeWinSize = 25
 let g:NERDTreeChDirMode = 2
 
-let g:ctrlp_extensions = ['buffertag']
+let g:ctrlp_extensions = ['tag', 'buffertag']
 let g:ctrlp_working_path_mode = 0
 let g:ctrlp_cmd = 'CtrlPMixed'
 let g:ctrlp_mruf_relative = 1
