@@ -6,39 +6,30 @@ call vundle#begin()
 
 Plugin 'gmarik/Vundle.vim'
 
+" Javascript
+Plugin 'pangloss/vim-javascript'
+
 " File
 Plugin 'scrooloose/nerdtree'
-Plugin 'ctrlpvim/ctrlp.vim'
-
-" Python
-Plugin 'hynek/vim-python-pep8-indent'
-Plugin 'jmcantrell/vim-virtualenv'
-Plugin 'davidhalter/jedi-vim'
-Plugin 'hdima/python-syntax'
-
-" Html
-Plugin 'gregsexton/MatchTag'
-Plugin 'othree/html5.vim'
 
 " Programming
 Plugin 'majutsushi/tagbar'
 Plugin 'tpope/vim-commentary'
-Plugin 'scrooloose/syntastic'
+Plugin 'vim-syntastic/syntastic'
 Plugin 'tpope/vim-repeat'
-Plugin 'michaeljsmith/vim-indent-object'
 
 " Vcs
 Plugin 'airblade/vim-gitgutter'
 Plugin 'tpope/vim-fugitive'
+Plugin 'rickhowe/diffchar.vim'
 
 " Colors
 Plugin 'vim-scripts/xoria256.vim'
-Plugin 'vim-scripts/wombat256.vim'
+Plugin 'sonph/onehalf', {'rtp': 'vim/'}
+Plugin 'jacoborus/tender.vim'
 
 " Other
 Plugin 'mileszs/ack.vim'
-Plugin 'gcmt/taboo.vim'
-Plugin 'jlanzarotta/bufexplorer'
 
 call vundle#end()
 
@@ -87,22 +78,29 @@ set mouse=a  " on OSX press ALT and click"
 set shortmess+=I
 
 " Look'n'feel
+if (has("termguicolors"))
+ set termguicolors
+endif
+if (has("macligatures"))
+ set macligatures
+endif
+
 set t_Co=256
+set t_md=
 set background=dark
-colorscheme xoria256
-" set macligatures
-set guifont=Fira\ Code:h14
+colorscheme onehalfdark
+set guifont=Menlo:h14
 
 set ch=1
 
 " Shortcuts
 let mapleader = ","
 
-nnoremap <leader>b oimport ipdb; ipdb.set_trace()<Esc>
-nnoremap <leader>B Oimport ipdb; ipdb.set_trace()<Esc>
 nnoremap Q <nop>
 
 command! -nargs=+ -complete=file -bar AckSearch Ack! <args>
+command! W w
+command! Q q
 
 map <S-left> :bp<cr>
 map <S-right> :bn<cr>
@@ -119,16 +117,15 @@ map <F4> :TagbarToggle<cr>
 vmap <F4> <esc>:TagbarToggle<cr>
 imap <F4> <esc>:TagbarToggle<cr>
 
-" map <F5> :ls<cr>:b<space>
-" vmap <F5> :ls<cr>:b<space>
-" imap <F5> :ls<cr>:b<space>
+map <F7> :SyntasticCheck<cr>
+vmap <F7> <esc>:SyntasticCheck<cr>
+imap <F7> <esc>:SyntasticCheck<cr>
 
-map <F5> :ToggleBufExplorer<cr>
-vmap <F5> :ToggleBufExplorer<cr>
-imap <F5> :ToggleBufExplorer<cr>
+nnoremap <leader>f :ls<cr>:b<space>
 
 " Abbrevs
-iab enc! # coding: utf-8
+iab ipdb import ipdb; ipdb.set_trace()
+iab pdb import pdb; pdb.set_trace()
 
 " Language settings
 set termencoding=utf-8
@@ -141,13 +138,15 @@ set iskeyword=@,48-57,_,192-255
 
 " Autocmds
 autocmd FileType python setlocal completeopt-=preview
-autocmd FileType htmldjango setlocal commentstring={#%s#}
+autocmd FileType htmldjango setlocal ts=2 sw=2 sts=0 expandtab commentstring={#%s#}
+autocmd Filetype html setlocal ts=2 sw=2 sts=0 expandtab
+autocmd Filetype javascript setlocal ts=2 sw=2 sts=0 expandtab
 
 autocmd BufRead *.py set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
 autocmd BufRead *.py inoremap # X<c-h>#
 
 " Remaps
-inoremap ii <ESC>
+inoremap ii <C-]><Esc>
 nnoremap <silent> <Esc><Esc> :nohlsearch<CR><Esc>
 
 " Plugins settings
@@ -157,26 +156,27 @@ let g:tagbar_autofocus = 1
 let g:tagbar_iconchars = ['+', '-']
 let g:tagbar_width = 25
 
-let python_highlight_all = 1
-
 let NERDTreeIgnore = ['\.pyc$']
 let NERDTreeMinimalUI = 1
 let g:NERDTreeWinSize = 25
 let g:NERDTreeChDirMode = 2
 
-let g:ctrlp_extensions = ['tag', 'buffertag']
-let g:ctrlp_working_path_mode = 0
-let g:ctrlp_cmd = 'CtrlPMixed'
-let g:ctrlp_mruf_relative = 1
+let g:ackprg = "ag --nogroup --nocolor --column"
 
-let g:ackprg = "ack -i"
-
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_wq = 0
+let g:syntastic_mode_map = {
+    \ "mode": "active",
+    \ "active_filetypes": [],
+    \ "passive_filetypes": ["python", "javascript"]}
 let g:syntastic_python_checkers=['flake8']
-let g:syntastic_python_flake8_exec='/usr/local/bin/flake8'
+let g:syntastic_python_flake8_exec='/Users/code/.pyenv/versions/flake8/bin/flake8'
 let g:syntastic_python_flake8_args='--max-line-length=120'
 
 let g:python_highlight_all = 1
-let g:python_version_2 = 1
+let g:python_version_3 = 1
 
 " Syntax highlight settings
 highlight link htmlLink text
